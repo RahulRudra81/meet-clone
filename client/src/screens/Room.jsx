@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useSocket } from '../context/SocketProvider'
 import ReactPlayer from 'react-player'
 import peer from '../services/peer'
+import { Typography , Button} from '@material-tailwind/react'
 const RoomPage = () => {
     const [remoteSocketId, setRemoteSocketId] = useState(null)
     const [myStream, setMyStream] = useState()
@@ -98,40 +99,53 @@ const RoomPage = () => {
     }, [socket,handleUserJoined,handleIncomingCall,handleCallAccepted,handleNegoNeededIncoming,handleNegoNeedFinal])
 
     return (
-        <div>
-            <h1>Room Page</h1>
-            <h4>{remoteSocketId ? 'Connected' : 'No on in the room'}</h4>
-            {myStream && <button onClick={sendStreams}>Send Stream</button>}
-            {remoteSocketId && <button onClick={handleCallUser}>Call</button>}
+        <div className='h-screen flex flex-col items-center justify-evenly' style={{
+            "background": "linear-gradient(to right bottom, #8eabd1, #b0bedc, #cdd2e8, #e8e8f3, #ffffff)"}}>
+            <Typography variant="h1" color="blue-gray">
+                    Room
+                </Typography>
+            <h4>{remoteSocketId ? 'Connected' : '(No one in the room)'}</h4>
+            
+            <div className='flex flex-wrap xl:flex-row justify-center items-center'>
+
+            
             {
+                
                 myStream && (
-                    <>
+                    <div className='flex  justify-center flex-col items-center'>
                     <h1>My stream</h1>
                     <ReactPlayer
                         url={myStream}
-                        height="600px"
-                        width="300px"
-                        playing />
+                        playing
+                        height="50vh"
+                        width="50vw"
+                         />
                     
-                    </>
+                    </div>
                 
                 )
             }
             {
                 remoteStream && (
-                    <>
+                    <div className='flex justify-center flex-col items-center'>
                     <h1>Remote Stream</h1>
                     <ReactPlayer
                         url={remoteStream}
-                        height="600px"
-                        width="300px"
                         playing 
+                        height="50vh"
+                        width="50vw"
                     />
                     
-                    </>
+                    </div>
                 
                 )
+
             }
+            </div>
+            <div className='flex w-full justify-center gap-10 m-10 '>
+                {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
+                {remoteSocketId && <Button onClick={handleCallUser}>Call</Button>}
+            </div>
         </div>
     )
 }
