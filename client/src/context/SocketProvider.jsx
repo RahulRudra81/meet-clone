@@ -9,7 +9,7 @@ export const useSocket=()=>{
 }
 
 export const SocketProvider =(props)=>{
-    const socket=useMemo(()=>io("https://meet-clone-lcg7.onrender.com"),[])
+    const socket=useMemo(()=>io("http://localhost:5174/"),[])
     return(
         <SocketContext.Provider value={socket}>
             {props.children}
